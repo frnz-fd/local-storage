@@ -1,0 +1,106 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local storage</title>
+    <style>
+        .todolist {
+            border: 2px solid #ccc;
+            width: 800px;
+            height: 500px;
+            margin: 50px auto;
+            border-radius: 5px;
+        }
+
+        h1 {
+            margin: 70px auto;
+            width: 200px;
+        }
+
+        .add-element {
+            margin: 150px auto 0 auto;
+            width: fit-content;
+        }
+
+        #todo {
+            border-radius: 15px;
+            width: 600px;
+            height: 40px;
+        }
+
+        #btn {
+            border: none;
+            background-color: rgb(37, 37, 37);
+            color: #ccc;
+            border-radius: 10px;
+            width: 40px;
+            height: 35px;
+        }
+
+        #btn:hover {
+            background-color: #ccc;
+            color: black;
+        }
+        #list{
+            background-color: black;
+            border-radius: 10px;
+            width:700px;
+            height:160px;
+            margin:10px auto;
+            padding:10px 20px;
+        }
+        li{
+            color:aliceblue;
+    
+        }
+    </style>
+</head>
+
+<body>
+    <div class="todoList">
+        <h1>[ To Do List ]</h1>
+        <div class="add-element">
+            <input type="text" id="todo" placeholder="       Add New...">
+            <button id="btn">Add</button>
+        </div>
+        <div class="element-list">
+            <ul id="list"></ul>
+        </div>
+    </div>
+
+    <script>
+        let input = document.querySelector('#todo')
+        let btn = document.querySelector('#btn');
+        let list = document.querySelector('#list');
+        let savedTasks = localStorage.getItem('tasks');
+
+        btn.addEventListener('click', () => {
+            let txt = input.value;
+            if (txt === "") {
+                alert('Please write something to do!');
+            } else {
+                let li = document.createElement('li');
+                li.innerHTML = txt;
+                list.insertBefore(li, list.childNodes[0]);
+                localStorage.setItem("tasks", "todos");
+                input.value = '';
+                const delBtn = document.createElement("i");
+                delBtn.classList.add("fas", "fa-trash-alt");
+                li.appendChild(delBtn);
+                delBtn.addEventListener('click', e => {
+                    li.parentNode.removeChild(li);
+                    localStorage.removeItem("tasks");
+                })
+            }
+        })
+        list.addEventListener('click', e => {
+            if (e.target.tagName == 'LI') {
+                e.target.classList.toggle('checked');
+            }
+        })
+    </script>
+</body>
+
+</html>
